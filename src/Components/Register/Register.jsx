@@ -2,10 +2,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as z from 'zod';
 import showPasswordIcon from "../../assets/2540381-200.png";
-import hidePassword from "../../assets/eye-password-see-view.svg"
+import hidePassword from "../../assets/eye-password-see-view.svg";
+import uprightArrow from "../../assets/upright-arrow.svg";
+
 // we will continue to validate with zod
 
 
@@ -93,42 +95,46 @@ export default function Register() {
     // }
 
     
-function handleRegister(values) {
+async function handleRegister(values) {
   setIsLoading(true);
   setApiError("");
 
-  axios
-    .post("https://route-posts.routemisr.com/users/signup", values)
-    .then((res) => {
-      console.log(res.data);
+  try {
+    const response = await axios.post(
+      "https://route-posts.routemisr.com/users/signup",
+      values
+    );
 
-      if (res.data.message === "success") {
-        navigate("/Login");
-      } else {
-        setApiError(res.data.message || "Registration failed.");
-      }
-    })
-    .catch((error) => {
-      setApiError(
+    console.log(response.data);
+
+    if (response.data.success) {
+      navigate("/login");
+    } else {
+      setApiError(response.data.message || "Registration failed.");
+    }
+  } catch (error) {
+    console.log(error.response?.data || error.message);
+
+    setApiError(
+      error.response?.data?.message ||
         error.response?.data?.error ||
-        error.response?.data?.message ||
-        error.message
-      );
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+        error.message ||
+        "Registration failed."
+    );
+  } finally {
+    setIsLoading(false);
+  }
 }
 
   return (
     <>
     
-    <div className="max-w-full text-center">
+    <div className="max-w-full flex items-center justify-center text-center">
     <h1
     className='font-bold text-2xl mt-4'>
         Register Now
    </h1>
-   {apiError ? <p className='w-full bg-red-200 text-red-800'></p> : null}
+   {apiError ? <p className="w-full bg-red-200 text-red-800"></p> : null}
     </div>
 
     {/* here, we continue further with RHF's features and validate the form with it instead of manually */}
@@ -143,7 +149,7 @@ function handleRegister(values) {
       type="text" 
       id="name" 
       className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" "  />
-      <label htmlFor="name" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Name</label>
+      <label htmlFor="name" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Name</label>
 
       {formState.errors.name && formState.touchedFields.name && <p className='bg-red-200 text-red-800 w-fit px-2 rounded-sm'>⚠︎ {formState.errors.name?.message}</p>}
 
@@ -157,7 +163,7 @@ function handleRegister(values) {
     type="email" 
     id="email" 
     className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" "  />
-    <label htmlFor="email" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email address</label>
+    <label htmlFor="email" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email address</label>
 
     {formState.errors.email && formState.touchedFields.email && <p className='bg-red-200 text-red-800 w-fit px-2 rounded-sm'>⚠︎ {formState.errors.email?.message}</p>}
 
@@ -175,7 +181,7 @@ function handleRegister(values) {
 
   <label
     htmlFor="password"
-    className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-6"
+    className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
   >
     Password
   </label>
@@ -214,7 +220,7 @@ function handleRegister(values) {
     type="password" 
     id="rePassword" 
     className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" "  />
-    <label htmlFor="rePassword" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Confirm password</label>
+    <label htmlFor="rePassword" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Confirm password</label>
 
     {formState.errors.rePassword && formState.touchedFields.rePassword && <p className='bg-red-200 text-red-800 w-fit px-2 rounded-sm'>⚠︎ {formState.errors.rePassword?.message}</p>}
 
@@ -277,9 +283,14 @@ function handleRegister(values) {
   disabled={isLoading}
   type="submit" 
   className="text-black bg-white rounded-lg disabled:bg-[#f1f1f1] disabled:cursor-not-allowed shadow-md shadow-[#dddcdc] font-medium rounded-base text-sm px-4 py-2 cursor-pointer block w-full border border-[#f1f1f1] hover:bg-[#f2f2f2] hover:shadow-lg transition-shadow ">
-    {isLoading? "Loading..." : "Register"}
+    {isLoading? "Registering..." : "Register"}
   </button>
 </form>
+
+<div className='flex flex-col w-full h-full items-center justify-center mt-8 '>
+<p className="">Already have an account?</p>
+<Link to='/login' className="text-slate-600 hover:text-black  transition-colors hover:underline">Log in instead <img className='w-3 inline-block ml-1' src={uprightArrow} alt='Upright arrow'></img> </Link>
+</div>
 
 
     </>
