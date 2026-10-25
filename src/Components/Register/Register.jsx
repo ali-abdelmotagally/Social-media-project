@@ -132,7 +132,7 @@ async function handleRegister(values) {
     <div className="max-w-full flex items-center justify-center text-center">
     <h1
     className='font-bold text-2xl mt-4'>
-        Register Now
+        Create an account
    </h1>
    {apiError ? <p className="w-full bg-red-200 text-red-800"></p> : null}
     </div>

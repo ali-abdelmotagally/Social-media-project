@@ -88,6 +88,7 @@ export default function Login() {
         )}
       </div>
 
+        
       <form
         onSubmit={handleSubmit(handleLogin)}
         className="w-87.5 mx-auto mt-8 border border-[#f1f1f1] p-4 rounded-2xl shadow-sm shadow-[#dddcdc] md:w-3xl lg:w-4xl"
@@ -160,12 +161,24 @@ export default function Login() {
         </button>
       </form>
 
+    <div className="flex flex-col items-center mx-auto mt-8">
       <Link
         to="/reset-password"
-        className="block text-slate-500 text-center mt-8 hover:underline transition-colors hover:text-black"
+        className="block text-slate-500 hover:underline transition-colors hover:text-black"
       >
         Forgot password?
       </Link>
+
+       <Link
+        to="/register"
+        className="block text-slate-500 text-center hover:underline transition-colors hover:text-black"
+      >
+        Don't have an account?
+      </Link>
+
+    </div>
+      
     </>
+
   );
 }
