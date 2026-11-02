@@ -9,8 +9,8 @@ import save from "../../assets/saved-icon.svg";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet";
-
-
+import DropdownMenu from "../../PostDropdown/PostDropdown";
+import CreatePost from "../../CreatePost/CreatePost";
 
 
 export default function Home() {
@@ -155,9 +155,16 @@ const { register, handleSubmit } = form;
         <title>LinkUp | Home</title>
     </Helmet>
 
+
     <main className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+      
+      <CreatePost/>
+
+
       {data?.data.data.posts.map((post) => {
         const postId = post.id || post._id;
+        
+        
 
         const postDate = new Date(
           post.createdAt
@@ -195,14 +202,10 @@ const { register, handleSubmit } = form;
                 </div>
               </div>
 
-              <button
-                type="button"
-                className="text-gray-500 text-xl hover:text-gray-900"
-                aria-label="Post options"
-              >
-                ⋯
-              </button>
+              <DropdownMenu />
             </div>
+
+
 
             {/* Post body */}
             <div className="px-4 pb-4">
@@ -232,7 +235,7 @@ const { register, handleSubmit } = form;
             ></input>
       
             <button
-            className="cursor-pointer mx-3 px-4 bg-blue-500 rounded-xl text-white hover:bg-blue-600 transition-colors"
+            className="cursor-pointer mx-3 px-4 bg-black rounded-xl text-white hover:bg-black/80 transition-colors"
             >
             Add
             </button>

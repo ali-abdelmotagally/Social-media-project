@@ -169,7 +169,8 @@ function handleLogout() {
             })
           }
           aria-label="Scroll to top"
-          className="cursor-pointer fixed bottom-4 right-4 z-50 flex items-center justify-center text-xl w-10 h-10 rounded-full bg-blue-500 text-white shadow-lg hover:bg-blue-600 transition-colors animate-in"
+          className="cursor-pointer fixed bottom-4 right-4 z-50 flex items-center justify-center text-xl w-10 h-10 rounded-full bg-black text-white shadow-lg hover:bg-black/80 transition-colors animate-in fade-in slide-in-from-bottom-8 duration-500
+          "
         >
           ↑
         </button>
