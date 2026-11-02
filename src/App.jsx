@@ -11,6 +11,13 @@ import Profile from './Components/Profile/Profile';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 import LoadingScreen from './Components/LoadingScreen/LoadingScreen';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import PostDetails from './Components/Post Details/PostDetails';
+import Offline from './Offline/Offline';
+import {useNetworkState} from "react-use" // let users know when offline
+
+
+const query = new QueryClient();
 
 
 const router = createBrowserRouter([
@@ -24,23 +31,30 @@ const router = createBrowserRouter([
       {path : 'login', element : <Login/>},
       {path : '*', element : <NotFound/>},
       {path : 'resetPassword', element : <ResetPassword/>},
-      {path : 'loadingScreen', element : <LoadingScreen/>}
+      {path : 'loadingScreen', element : <LoadingScreen/>},
+      {path : 'postDetails', element : <ProtectedRoute> <PostDetails/> </ProtectedRoute>},
     ]
   }
 ])
 
 
 
-function App() {
+export default function App() {
+  const {online} = useNetworkState();
 
   return (
-    <AuthProvider>
-      <CounterProvider>
+    <>
+    {!online && <Offline/>}
+    <QueryClientProvider client={query}>
+      <AuthProvider>
+       <CounterProvider>
         {/* provide the entire app with data used in the counterProvider function */}
-        <RouterProvider router={router}></RouterProvider> 
-     </CounterProvider>
-    </AuthProvider>
+          <RouterProvider router={router}></RouterProvider> 
+       </CounterProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+    </>
   )
 }
 
-export default App
+

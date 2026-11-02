@@ -8,6 +8,8 @@ import * as z from "zod";
 import showPasswordIcon from "../../assets/2540381-200.png";
 import hidePassword from "../../assets/eye-password-see-view.svg";
 import { AuthContext } from "../Context/AuthCotext";
+import { Helmet } from "react-helmet";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const schema = z.object({
+  const loginSchema = z.object({
     email: z
       .string()
       .min(1, "Email field is required.")
@@ -31,7 +33,7 @@ export default function Login() {
       email: "",
       password: "",
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(loginSchema),
   });
 
   const { register, handleSubmit, formState } = form;
@@ -78,6 +80,11 @@ export default function Login() {
 
   return (
     <>
+    <Helmet>
+        <title>LinkUp | Login</title>
+    </Helmet>
+
+
       <div className="max-w-full text-center">
         <h1 className="font-bold text-2xl mt-4">Welcome Back!</h1>
 

@@ -7,6 +7,9 @@ import * as z from 'zod';
 import showPasswordIcon from "../../assets/2540381-200.png";
 import hidePassword from "../../assets/eye-password-see-view.svg";
 import uprightArrow from "../../assets/upright-arrow.svg";
+import { Helmet } from 'react-helmet';
+
+
 
 // we will continue to validate with zod
 
@@ -18,7 +21,7 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-  const schema = z.object({
+  const registerSchema = z.object({
     name: z
     .string()
     .min(3, "Name must be at least 3 characters")
@@ -32,7 +35,7 @@ export default function Register() {
     password: z
     .string()
     .min(1, "Password field is required.")
-    .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, "Please enter a strong password"),
+    .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, "Password must contain an uppercase, a number and a special character."),
 
     rePassword: z
     .string()
@@ -79,7 +82,7 @@ export default function Register() {
         dateOfBirth: "",
         gender: "",
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(registerSchema),
    });
 
    const {register, handleSubmit, getValues, formState} = form; //regsiter() is a function inside RHF. It registers the fields in the useForm() and returns: name, onChange(), onBlur() and ref
@@ -99,7 +102,8 @@ async function handleRegister(values) {
   setIsLoading(true);
   setApiError("");
 
-  try {
+  try 
+  {
     const response = await axios.post(
       "https://route-posts.routemisr.com/users/signup",
       values
@@ -107,12 +111,19 @@ async function handleRegister(values) {
 
     console.log(response.data);
 
-    if (response.data.success) {
+    if (response.data.success) 
+    {
       navigate("/login");
-    } else {
+    } 
+
+    else
+    {
       setApiError(response.data.message || "Registration failed.");
     }
-  } catch (error) {
+    
+    } 
+  catch (error) 
+  {
     console.log(error.response?.data || error.message);
 
     setApiError(
@@ -121,14 +132,21 @@ async function handleRegister(values) {
         error.message ||
         "Registration failed."
     );
-  } finally {
+  } 
+  finally 
+  {
     setIsLoading(false);
   }
 }
 
   return (
     <>
-    
+    <Helmet>
+        <title>LinkUp | Register</title>
+    </Helmet>
+
+
+
     <div className="max-w-full flex items-center justify-center text-center">
     <h1
     className='font-bold text-2xl mt-4'>
