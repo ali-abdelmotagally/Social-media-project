@@ -3,10 +3,7 @@ import React from 'react'
 export default function Offline() {
   return (
     <>
-    <div className='fixed top-0 left-0 w-full h-15 bg-red-600 text-white text-lg font-semibold flex items-center justify-center z-50'
-    >
-    You are offline!
-    </div>
+    <div className='block text-center fixed top-0 left-0 z-5000 w-full bg-red-500/60 h-15 p-2 text-lg font-semibold'></div>
     </>
   )
 }

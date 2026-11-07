@@ -15,6 +15,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PostDetails from './Components/Post Details/PostDetails';
 import Offline from './Offline/Offline';
 import {useNetworkState} from "react-use" // let users know when offline
+import { ToastContainer } from 'react-toastify';
+
 
 
 const query = new QueryClient();
@@ -53,6 +55,7 @@ export default function App() {
        </CounterProvider>
       </AuthProvider>
     </QueryClientProvider>
+    <ToastContainer/> 
     </>
   )
 }
