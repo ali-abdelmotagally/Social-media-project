@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import attachment from '../assets/attachment.svg';
+import { toast } from 'react-toastify';
 
 
 
@@ -43,20 +44,30 @@ export default function CreateComment({ postId, onCommentCreated }) {
         );
     }
 
-    const {
-        mutate,
-        isPending,
-        isError,
-        error
-    } = useMutation({
-        mutationFn: createComment,
+    const {mutate, isPending, isError, error} = useMutation({mutationFn: createComment,
 
         onSuccess: () => {
             setCommentContent('');
             setImageFile(null);
             setImagePreview('');
             onCommentCreated?.();
-        }
+            toast.success("Comment Added Successfully.",
+                {
+                closeOnClick : true,
+                position : "top-center",
+                draggable : false,
+                autoClose: 3000,
+                }
+            )
+        },
+        onError: ()=>{toast.error("Failed to Add Comment",
+            {
+            closeOnClick : true,
+            position : "top-center",
+            draggable : false,
+            autoClose: 3000,
+            }
+        )},
     });
 
     // Handle image selection
